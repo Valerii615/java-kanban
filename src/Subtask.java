@@ -8,10 +8,10 @@ public class Subtask extends Task {
     @Override
     public String toString () {
         return "подзадача {" +
-                "№" + idTask +
-                ", Название='" + nameTask + '\'' +
-                ", Описание='" + descriptionTask + '\'' +
-                ", Статус='" + statusTask + '\'' +
+                "№" + getIdTask() +
+                ", Название='" + getNameTask() + '\'' +
+                ", Описание='" + getDescriptionTask() + '\'' +
+                ", Статус='" + getStatusTask() + '\'' +
                 "}" +
                 "\n";
     }
