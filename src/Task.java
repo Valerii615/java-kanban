@@ -9,14 +9,11 @@ public class Task {
         this.descriptionTask = descriptionTask;
         this.statusTask = statusTask;
     }
+
     public Task (String nameTask, String descriptionTask) {
         this.nameTask = nameTask;
         this.descriptionTask = descriptionTask;
     }
-//
-//    public String getNameTask() {
-//        return nameTask;
-//    }
 
     @Override
     public String toString () {

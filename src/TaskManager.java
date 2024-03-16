@@ -18,13 +18,15 @@ public class TaskManager {
     }
 
     public void addNewSub(Subtask subtask) {
-        subtask.idTask = subtask.hashCode();
-        subTask.put(subtask.idTask, subtask);
-        Epic epic = epicTask.get(subtask.hashEpic);
-        epic.listHashSubtask.add(subtask.idTask);
         int counterNEW = 0;
         int counterIN_PROGRESS = 0;
         int counterDONE = 0;
+
+        subtask.idTask = subtask.hashCode();
+        subTask.put(subtask.idTask, subtask);
+
+        Epic epic = epicTask.get(subtask.hashEpic);
+        epic.listHashSubtask.add(subtask.idTask);
         for (Integer idSub: epic.listHashSubtask) {
             Subtask subtask1 = subTask.get(idSub);
             if (subtask1.statusTask == Status.NEW) counterNEW++;
@@ -68,6 +70,7 @@ public class TaskManager {
         Task task = normalTask.get(id);
         return task.toString();
     }
+
     public String getEpicTaskOfId(int id) {
         Task task = epicTask.get(id);
         return task.toString();
@@ -88,12 +91,14 @@ public class TaskManager {
     }
 
     public void  updateSubtask (int id, Subtask subtask) {
-        subtask.idTask = id;
-        subTask.put(id, subtask);
-        Epic epic = epicTask.get(subtask.hashEpic);
         int counterNEW = 0;
         int counterIN_PROGRESS = 0;
         int counterDONE = 0;
+
+        subtask.idTask = id;
+        subTask.put(id, subtask);
+        Epic epic = epicTask.get(subtask.hashEpic);
+
         for (Integer idSub: epic.listHashSubtask) {
             Subtask subtask1 = subTask.get(idSub);
             if (subtask1.statusTask == Status.NEW) counterNEW++;
@@ -139,6 +144,10 @@ public class TaskManager {
     public void deleteSubTaskOfId (int id) {
         Subtask subtask = subTask.get(id);
         int hashEpic = subtask.hashEpic;
+        int counterNEW = 0;
+        int counterIN_PROGRESS = 0;
+        int counterDONE = 0;
+
         subTask.remove(id);
         Epic epic = epicTask.get(hashEpic);
         for (int i = 0; i < epic.listHashSubtask.size(); i++) {
@@ -146,9 +155,7 @@ public class TaskManager {
                 epic.listHashSubtask.remove(i);
             }
         }
-        int counterNEW = 0;
-        int counterIN_PROGRESS = 0;
-        int counterDONE = 0;
+
         for (Integer idSub: epic.listHashSubtask) {
             Subtask subtask1 = subTask.get(idSub);
             if (subtask1.statusTask == Status.NEW) counterNEW++;
