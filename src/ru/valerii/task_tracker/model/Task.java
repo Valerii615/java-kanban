@@ -57,7 +57,7 @@ public class Task {
     }
 
     @Override
-    public boolean equals (Object object) {
+    public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null) return false;
         if (this.getClass() != object.getClass()) return false;
@@ -67,7 +67,7 @@ public class Task {
     }
 
     @Override
-    public int hashCode () {
+    public int hashCode() {
         int hash = 17;
         if (nameTask != null) {
             hash = hash + nameTask.hashCode();
