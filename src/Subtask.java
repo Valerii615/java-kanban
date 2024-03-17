@@ -1,12 +1,17 @@
 public class Subtask extends Task {
-    int hashEpic;
+    private int idEpic;
+
     public Subtask(String nameTask, String descriptionTask, Status statusTask, int hashEpic) {
         super(nameTask, descriptionTask, statusTask);
-        this.hashEpic = hashEpic;
+        this.idEpic = hashEpic;
+    }
+
+    public int getIdEpic() {
+        return idEpic;
     }
 
     @Override
-    public String toString () {
+    public String toString() {
         return "подзадача {" +
                 "№" + getIdTask() +
                 ", Название='" + getNameTask() + '\'' +

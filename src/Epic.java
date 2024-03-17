@@ -1,13 +1,14 @@
 import java.util.ArrayList;
 
 public class Epic extends Task {
-    ArrayList<Integer> subtaskIds = new ArrayList<>(); //имя переменной поменяно, необходимо поставить модификатор доступа.
+    protected ArrayList<Integer> subtaskIds = new ArrayList<>();
+
     public Epic(String nameTask, String descriptionTask) {
         super(nameTask, descriptionTask);
     }
 
     @Override
-    public String toString () {
+    public String toString() {
         return "эпик задача {" +
                 "№" + getIdTask() +
                 ", Название='" + getNameTask() + '\'' +

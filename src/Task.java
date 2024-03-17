@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Task {
     private String nameTask;
     private String descriptionTask;
@@ -10,20 +12,9 @@ public class Task {
         this.statusTask = statusTask;
     }
 
-    public Task (String nameTask, String descriptionTask) {
+    public Task(String nameTask, String descriptionTask) {
         this.nameTask = nameTask;
         this.descriptionTask = descriptionTask;
-    }
-
-    @Override
-    public String toString () {
-        return "задача {" +
-                "№" + idTask +
-                ", Название='" + nameTask + '\'' +
-                ", Описание='" + descriptionTask + '\'' +
-                ", Статус='" + statusTask + '\'' +
-                "}" +
-                "\n";
     }
 
     public String getNameTask() {
@@ -48,5 +39,39 @@ public class Task {
 
     public void setStatusTask(Status statusTask) {
         this.statusTask = statusTask;
+    }
+
+    @Override
+    public String toString() {
+        return "задача {" +
+                "№" + getIdTask() +
+                ", Название='" + getNameTask() + '\'' +
+                ", Описание='" + getDescriptionTask() + '\'' +
+                ", Статус='" + getStatusTask() + '\'' +
+                "}" +
+                "\n";
+    }
+
+    @Override
+    public boolean equals (Object object) {
+        if (this == object) return true;
+        if (object == null) return false;
+        if (this.getClass() != object.getClass()) return false;
+        Task otherTask = (Task) object;
+        return Objects.equals(nameTask, otherTask.nameTask) &&
+                Objects.equals(descriptionTask, otherTask.descriptionTask);
+    }
+
+    @Override
+    public int hashCode () {
+        int hash = 17;
+        if (nameTask != null) {
+            hash = hash + nameTask.hashCode();
+        }
+        hash = hash * 31;
+        if (descriptionTask != null) {
+            hash = hash + descriptionTask.hashCode();
+        }
+        return hash;
     }
 }
