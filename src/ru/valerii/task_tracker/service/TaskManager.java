@@ -1,3 +1,9 @@
+package ru.valerii.task_tracker.service;
+
+import ru.valerii.task_tracker.model.Epic;
+import ru.valerii.task_tracker.model.Subtask;
+import ru.valerii.task_tracker.model.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -22,48 +28,33 @@ public class TaskManager {
         subtasks.put(subtask.getIdTask(), subtask);
 
         Epic epic = epics.get(subtask.getIdEpic());
-        epic.subtaskIds.add(subtask.getIdTask());
+        epic.getSubtaskIds().add(subtask.getIdTask());
 
         chekStatus(epic);
     }
 
-    public String getTasks() {
-        ArrayList<String> normalTaskList = new ArrayList<>();
-        for (Task task : tasks.values()) {
-            normalTaskList.add(task.toString());
-        }
-        return normalTaskList.toString();
+    public ArrayList<Task> getTasks() {
+        return new ArrayList<>(tasks.values());
     }
 
-    public String getEpics() {
-        ArrayList<String> epicTaskList = new ArrayList<>();
-        for (Epic epic : epics.values()) {
-            epicTaskList.add(epic.toString());
-        }
-        return epicTaskList.toString();
+    public ArrayList<Epic> getEpics() {
+        return new ArrayList<>(epics.values());
     }
 
-    public String getSubtasks() {
-        ArrayList<String> subTaskList = new ArrayList<>();
-        for (Subtask subtask : subtasks.values()) {
-            subTaskList.add(subtask.toString());
-        }
-        return subTaskList.toString();
+    public ArrayList<Subtask> getSubtasks() {
+        return new ArrayList<>(subtasks.values());
     }
 
-    public String getNormalTaskOfId(int id) {
-        Task task = this.tasks.get(id);
-        return task.toString();
+    public Task getNormalTaskOfId(int id) {
+        return this.tasks.get(id);
     }
 
-    public String getEpicTaskOfId(int id) {
-        Task task = epics.get(id);
-        return task.toString();
+    public Epic getEpicTaskOfId(int id) {
+        return epics.get(id);
     }
 
-    public String getSubTaskOfId(int id) {
-        Task task = subtasks.get(id);
-        return task.toString();
+    public Subtask getSubTaskOfId(int id) {
+        return subtasks.get(id);
     }
 
     public void updateNormalTask(int id, Task task) {
@@ -84,13 +75,13 @@ public class TaskManager {
         chekStatus(epic);
     }
 
-    public String getAllSubOfEpic(int idEpic) {
+    public ArrayList<Subtask> getAllSubOfEpic(int idEpic) {
         Epic epic = epics.get(idEpic);
-        ArrayList<String> subTaskList = new ArrayList<>();
-        for (Integer idSub : epic.subtaskIds) {
-            subTaskList.add(subtasks.get(idSub).toString());
+        ArrayList<Subtask> subTaskList = new ArrayList<>();
+        for (Integer idSub : epic.getSubtaskIds()) {
+            subTaskList.add(subtasks.get(idSub));
         }
-        return subTaskList.toString();
+        return subTaskList;
     }
 
     public void deleteAllTask() {
@@ -105,7 +96,7 @@ public class TaskManager {
 
     public void deleteEpicTaskOfId(int id) {
         Epic epic = epics.get(id);
-        for (Integer isSub : epic.subtaskIds) {
+        for (Integer isSub : epic.getSubtaskIds()) {
             subtasks.remove(isSub);
         }
         epics.remove(id);
@@ -117,9 +108,9 @@ public class TaskManager {
 
         subtasks.remove(id);
         Epic epic = epics.get(hashEpic);
-        for (int i = 0; i < epic.subtaskIds.size(); i++) {
-            if (epic.subtaskIds.get(i) == id) {
-                epic.subtaskIds.remove(i);
+        for (int i = 0; i < epic.getSubtaskIds().size(); i++) {
+            if (epic.getSubtaskIds().get(i) == id) {
+                epic.getSubtaskIds().remove(i);
             }
         }
         chekStatus(epic);
@@ -130,7 +121,7 @@ public class TaskManager {
         int counterIN_PROGRESS = 0;
         int counterDONE = 0;
 
-        for (Integer idSub : epic.subtaskIds) {
+        for (Integer idSub : epic.getSubtaskIds()) {
             Subtask subtask1 = subtasks.get(idSub);
             if (subtask1.getStatusTask() == Status.NEW) counterNEW++;
             if (subtask1.getStatusTask() == Status.IN_PROGRESS) counterIN_PROGRESS++;

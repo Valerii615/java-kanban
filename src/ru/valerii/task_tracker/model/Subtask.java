@@ -1,3 +1,8 @@
+package ru.valerii.task_tracker.model;
+
+
+import ru.valerii.task_tracker.service.Status;
+
 public class Subtask extends Task {
     private int idEpic;
 

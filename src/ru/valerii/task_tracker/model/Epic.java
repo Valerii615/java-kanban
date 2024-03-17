@@ -1,7 +1,10 @@
+package ru.valerii.task_tracker.model;
+
+
 import java.util.ArrayList;
 
 public class Epic extends Task {
-    protected ArrayList<Integer> subtaskIds = new ArrayList<>();
+    private ArrayList<Integer> subtaskIds = new ArrayList<>();
 
     public Epic(String nameTask, String descriptionTask) {
         super(nameTask, descriptionTask);
@@ -16,5 +19,9 @@ public class Epic extends Task {
                 ", Статус='" + getStatusTask() + '\'' +
                 "}" +
                 "\n";
+    }
+
+    public ArrayList<Integer> getSubtaskIds() {
+        return subtaskIds;
     }
 }

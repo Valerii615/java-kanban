@@ -1,3 +1,7 @@
+package ru.valerii.task_tracker.model;
+
+import ru.valerii.task_tracker.service.Status;
+
 import java.util.Objects;
 
 public class Task {
