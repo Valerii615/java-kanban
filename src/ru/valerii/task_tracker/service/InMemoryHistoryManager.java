@@ -18,7 +18,6 @@ public class InMemoryHistoryManager implements HistoryManager{
     }
 
     public List<Task> getHistory() { // новый метод
-        System.out.println("History task");
         return browsingHistory;
     }
 }

@@ -44,12 +44,12 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Epic> getEpics() {
+    public ArrayList<Task> getEpics() {
         return new ArrayList<>(epics.values());
     }
 
     @Override
-    public ArrayList<Subtask> getSubtasks() {
+    public ArrayList<Task> getSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
 
