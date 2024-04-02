@@ -1,6 +1,5 @@
 package ru.valerii.task_tracker.test;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.valerii.task_tracker.model.Task;
 import ru.valerii.task_tracker.service.HistoryManager;
@@ -18,15 +17,15 @@ class InMemoryHistoryManagerTest {
      */
     @Test
     void addTaskInHistory() {
-        historyManager.addInHistory(task);
+        historyManager.add(task);
         assertEquals(1, historyManager.getHistory().size(), "неверная длинна истории");
-        historyManager.addInHistory(task);
+        historyManager.add(task);
         assertEquals(2, historyManager.getHistory().size(), "неверная длинна истории");
     }
 
-
-
-
-
-
+    @Test
+    void removeAllTaskFromHistory() {
+        historyManager.removeAll();
+        assertEquals(0, historyManager.getHistory().size(), "история не очищена");
+    }
 }

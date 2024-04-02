@@ -27,16 +27,17 @@ class InMemoryTaskManagerTest {
     static void addingAllTypesOfTasks() {
         taskManager = Managers.getDefault();
 
-        taskManager.addNewTask(new Task("Обычная задача №1", "Описание", Status.NEW));
-        taskManager.addNewTask(new Task("Обычная задача №2", "Описание", Status.NEW));
+        taskManager.addTask(new Task("Обычная задача №1", "Описание", Status.NEW));
+        taskManager.addTask(new Task("Обычная задача №2", "Описание", Status.NEW));
 
-        taskManager.addNewEpic(new Epic("Эпик задача №1 с 2-мя подзадачами", "Описание"));
-        taskManager.addNewEpic(new Epic("Эпик задача №2 с одной подзадачей", "Описание"));
+        taskManager.addEpic(new Epic("Эпик задача №1 с 2-мя подзадачами", "Описание"));
+        taskManager.addEpic(new Epic("Эпик задача №2 с одной подзадачей", "Описание"));
 
-        taskManager.addNewSub(new Subtask("Подзадача №1.Эпик1", "Описание", Status.NEW, -1257237928));
-        taskManager.addNewSub(new Subtask("Подзадача №2.Эпик1", "Описание", Status.NEW, -1257237928));
-        taskManager.addNewSub(new Subtask("Подзадача №1.Эпик2", "Описание", Status.NEW, 194570775));
+        taskManager.addSubtask(new Subtask("Подзадача №1.Эпик1", "Описание", Status.NEW, 3));
+        taskManager.addSubtask(new Subtask("Подзадача №2.Эпик1", "Описание", Status.NEW, 3));
+        taskManager.addSubtask(new Subtask("Подзадача №1.Эпик2", "Описание", Status.NEW, 4));
     }
+
     /**
      * проверка на добавление задач
      */
@@ -46,26 +47,27 @@ class InMemoryTaskManagerTest {
         assertFalse(taskManager.getEpics().isEmpty(), "Задача типа Epic не добавилась");
         assertFalse(taskManager.getSubtasks().isEmpty(), "Задача типа Subask не добавилась");
     }
+
     /**
      * проверка на сохранение статусов задач, подзадач и расчет статуса эпика
      */
     @Test
     void checkingForSavingAndUpdatingStatuses() {
-        taskManager.updateNormalTask(-633266119, new Task("Обычная обновленная задача №1", "Описание", Status.IN_PROGRESS));
-        taskManager.updateNormalTask(-633266088, new Task("Обычная обновленная задача №2", "Описание", Status.DONE));
+        taskManager.updateTask(1, new Task("Обычная обновленная задача №1", "Описание", Status.IN_PROGRESS));
+        taskManager.updateTask(2, new Task("Обычная обновленная задача №2", "Описание", Status.DONE));
 
-        taskManager.updateSubtask(-1604581076, new Subtask("Подзадача обновленная №1.Эпик1", "Описание", Status.IN_PROGRESS, -1257237928));
-        taskManager.updateSubtask(138229259, new Subtask("Подзадача обновленная №2.Эпик1", "Описание", Status.DONE, -1257237928));
-        taskManager.updateSubtask(-1604581045, new Subtask("Подзадача обновленная №1.Эпик2", "Описание", Status.DONE, 194570775));
+        taskManager.updateSubtask(5, new Subtask("Подзадача обновленная №1.Эпик1", "Описание", Status.IN_PROGRESS, 3));
+        taskManager.updateSubtask(6, new Subtask("Подзадача обновленная №2.Эпик1", "Описание", Status.DONE, 3));
+        taskManager.updateSubtask(7, new Subtask("Подзадача обновленная №1.Эпик2", "Описание", Status.DONE, 4));
 
         ArrayList<Task> tasks = taskManager.getTasks();
         for (int i = 0; i < tasks.size(); i++) {
             switch (i) {
                 case 0:
-                    assertEquals(Status.IN_PROGRESS, tasks.get(i).getStatusTask(), "Не удалось изменить статус задачи " + tasks.get(i).getNameTask());
+                    assertEquals(Status.IN_PROGRESS, tasks.get(i).getStatus(), "Не удалось изменить статус задачи " + tasks.get(i).getName());
                     break;
                 case 1:
-                    assertEquals(Status.DONE, tasks.get(i).getStatusTask(), "Не удалось изменить статус задачи " + tasks.get(i).getNameTask());
+                    assertEquals(Status.DONE, tasks.get(i).getStatus(), "Не удалось изменить статус задачи " + tasks.get(i).getName());
                     break;
             }
         }
@@ -73,20 +75,20 @@ class InMemoryTaskManagerTest {
         for (int i = 0; i < epics.size(); i++) {
             switch (i) {
                 case 0:
-                    assertEquals(Status.IN_PROGRESS, epics.get(i).getStatusTask(), "Не удалось изменить статус эпика " + epics.get(i).getNameTask());
+                    assertEquals(Status.IN_PROGRESS, epics.get(i).getStatus(), "Не удалось изменить статус эпика " + epics.get(i).getName());
                     break;
                 case 1:
-                    assertEquals(Status.DONE, epics.get(i).getStatusTask(), "Не удалось изменить статус эпика " + epics.get(i).getNameTask());
+                    assertEquals(Status.DONE, epics.get(i).getStatus(), "Не удалось изменить статус эпика " + epics.get(i).getName());
             }
         }
         ArrayList<Task> subtasks = taskManager.getSubtasks();
         for (int i = 0; i < subtasks.size(); i++) {
             switch (i) {
                 case 0:
-                    assertEquals(Status.IN_PROGRESS, subtasks.get(i).getStatusTask(), "Не удалось изменить статус подзадачи " + subtasks.get(i).getNameTask());
+                    assertEquals(Status.IN_PROGRESS, subtasks.get(i).getStatus(), "Не удалось изменить статус подзадачи " + subtasks.get(i).getName());
                     break;
                 case 1, 2:
-                    assertEquals(Status.DONE, subtasks.get(i).getStatusTask(), "Не удалось изменить статус подзадачи " + subtasks.get(i).getNameTask());
+                    assertEquals(Status.DONE, subtasks.get(i).getStatus(), "Не удалось изменить статус подзадачи " + subtasks.get(i).getName());
                     break;
             }
         }
@@ -97,39 +99,47 @@ class InMemoryTaskManagerTest {
      */
     @Test
     void checkTheAdditionOfTaskToTheHierarchy() {
-        taskManager.getNormalTaskOfId(-633266119);
-        taskManager.getNormalTaskOfId(-633266088);
-
-        taskManager.getEpicTaskOfId(-1257237928);
-        taskManager.getEpicTaskOfId(194570775);
-
-        taskManager.getSubTaskOfId(-1604581076);
-        taskManager.getSubTaskOfId(138229259);
-        taskManager.getSubTaskOfId(-1604581045);
+        Task taskPozi1 = taskManager.getTaskOfId(1);
+        Task taskPozi2 = taskManager.getEpicOfId(3);
+        Task taskPozi3 = taskManager.getSubtaskOfId(5);
 
         List<Task> history = taskManager.getHistory();
-        assertEquals(7, history.size(), "история имеет неверное количество сохраненных значений");
-
-        taskManager.getNormalTaskOfId(-633266119);
-        taskManager.getNormalTaskOfId(-633266088);
-
-        taskManager.getEpicTaskOfId(-1257237928);
-        taskManager.getEpicTaskOfId(194570775);
+        assertEquals(3, history.size(), "история имеет неверное количество сохраненных значений");
+        for (int i = 0; i < history.size(); i++) {
+            switch (i){
+                case 0:
+                    assertEquals(taskPozi1, history.get(0), "сохранена неверная задача");
+                    break;
+                case 1:
+                    assertEquals(taskPozi2, history.get(1), "сохранена неверная задача");
+                    break;
+                case 2:
+                    assertEquals(taskPozi3, history.get(2), "сохранена неверная задача");
+            }
+        }
+        taskManager.getTaskOfId(1);
+        taskManager.getTaskOfId(2);
+        taskManager.getEpicOfId(3);
+        taskManager.getEpicOfId(3);
+        taskManager.getEpicOfId(4);
+        taskManager.getEpicOfId(4);
+        taskManager.getSubtaskOfId(7);
+        taskManager.getSubtaskOfId(5);
+        taskManager.getSubtaskOfId(6);
 
         assertTrue(history.size() <= 10, "история имеет больше 10 сохраненных значений" );
     }
-
 
     /**
      * проверка на удаление задач
      */
     @AfterAll
     static void checkingForDeletionOfTasks() {
-        taskManager.deleteNormalTaskOfId(-633266119);
-        taskManager.deleteEpicTaskOfId(194570775);
-        assertNull(taskManager.getNormalTaskOfId(-633266119), "задача не удалена");
-        assertNull(taskManager.getEpicTaskOfId(194570775), "задача не удалена");
-        assertNull(taskManager.getSubTaskOfId(-1604581045), "задача не удалена");
+        taskManager.deleteTaskOfId(1);
+        taskManager.deleteEpicOfId(4);
+        assertNull(taskManager.getTaskOfId(1), "задача не удалена");
+        assertNull(taskManager.getEpicOfId(4), "задача не удалена");
+        assertNull(taskManager.getSubtaskOfId(7), "задача не удалена");
 
         taskManager.deleteAllTask();
         assertEquals(0, taskManager.getTasks().size(), "остались неудаленные задачи");
@@ -142,5 +152,4 @@ class InMemoryTaskManagerTest {
         System.out.println(taskManager.getEpics());
         System.out.println(taskManager.getSubtasks());
     }
-
 }

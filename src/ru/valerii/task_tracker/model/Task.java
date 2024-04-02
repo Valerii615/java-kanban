@@ -5,53 +5,53 @@ import ru.valerii.task_tracker.service.Status;
 import java.util.Objects;
 
 public class Task {
-    private String nameTask;
-    private String descriptionTask;
-    private int idTask;
-    private Status statusTask;
+    private String name;
+    private String description;
+    private int id;
+    private Status status;
 
     public Task(String nameTask, String descriptionTask, Status statusTask) {
-        this.nameTask = nameTask;
-        this.descriptionTask = descriptionTask;
-        this.statusTask = statusTask;
+        this.name = nameTask;
+        this.description = descriptionTask;
+        this.status = statusTask;
     }
 
     public Task(String nameTask, String descriptionTask) {
-        this.nameTask = nameTask;
-        this.descriptionTask = descriptionTask;
+        this.name = nameTask;
+        this.description = descriptionTask;
     }
 
-    public String getNameTask() {
-        return nameTask;
+    public String getName() {
+        return name;
     }
 
-    public String getDescriptionTask() {
-        return descriptionTask;
+    public String getDescription() {
+        return description;
     }
 
-    public int getIdTask() {
-        return idTask;
+    public int getId() {
+        return id;
     }
 
-    public Status getStatusTask() {
-        return statusTask;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setIdTask(int idTask) {
-        this.idTask = idTask;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setStatusTask(Status statusTask) {
-        this.statusTask = statusTask;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
         return "задача {" +
-                "№" + getIdTask() +
-                ", Название='" + getNameTask() + '\'' +
-                ", Описание='" + getDescriptionTask() + '\'' +
-                ", Статус='" + getStatusTask() + '\'' +
+                "ID:" + getId() +
+                ", Название='" + getName() + '\'' +
+                ", Описание='" + getDescription() + '\'' +
+                ", Статус='" + getStatus() + '\'' +
                 "}" +
                 "\n";
     }
@@ -62,19 +62,19 @@ public class Task {
         if (object == null) return false;
         if (this.getClass() != object.getClass()) return false;
         Task otherTask = (Task) object;
-        return Objects.equals(nameTask, otherTask.nameTask) &&
-                Objects.equals(descriptionTask, otherTask.descriptionTask);
+        return Objects.equals(name, otherTask.name) &&
+                Objects.equals(description, otherTask.description);
     }
 
     @Override
     public int hashCode() {
         int hash = 17;
-        if (nameTask != null) {
-            hash = hash + nameTask.hashCode();
+        if (name != null) {
+            hash = hash + name.hashCode();
         }
         hash = hash * 31;
-        if (descriptionTask != null) {
-            hash = hash + descriptionTask.hashCode();
+        if (description != null) {
+            hash = hash + description.hashCode();
         }
         return hash;
     }

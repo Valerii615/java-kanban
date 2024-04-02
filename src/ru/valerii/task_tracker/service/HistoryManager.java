@@ -5,6 +5,11 @@ import ru.valerii.task_tracker.model.Task;
 import java.util.List;
 
 public interface HistoryManager {
-    void addInHistory(Task task);
+    void add(Task task);
+
     List<Task> getHistory();
+
+    void removeAll();
+
+    void remove(Task task);
 }
