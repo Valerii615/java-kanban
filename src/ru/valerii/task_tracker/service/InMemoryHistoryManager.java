@@ -2,6 +2,7 @@ package ru.valerii.task_tracker.service;
 
 import ru.valerii.task_tracker.model.Task;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        return browsingHistory;
+        return new ArrayList<>(browsingHistory);
     }
 
     @Override
