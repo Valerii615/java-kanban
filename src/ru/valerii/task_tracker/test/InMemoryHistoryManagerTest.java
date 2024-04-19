@@ -1,12 +1,8 @@
 package ru.valerii.task_tracker.test;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.valerii.task_tracker.model.Task;
-import ru.valerii.task_tracker.service.HistoryManager;
 import ru.valerii.task_tracker.service.Managers;
-import ru.valerii.task_tracker.service.Status;
 import ru.valerii.task_tracker.service.TaskManager;
 
 import static org.junit.jupiter.api.Assertions.*;
