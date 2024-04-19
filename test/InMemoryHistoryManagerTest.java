@@ -1,11 +1,9 @@
-package ru.valerii.task_tracker.test;
-
 import org.junit.jupiter.api.Test;
 import ru.valerii.task_tracker.model.Task;
 import ru.valerii.task_tracker.service.Managers;
 import ru.valerii.task_tracker.service.TaskManager;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class InMemoryHistoryManagerTest {
     TaskManager taskManager = Managers.getDefault();
