@@ -31,9 +31,7 @@ public class Main {
 
         System.out.println("del epi");
 
-
         taskManager.deleteEpicOfId(2);
         System.out.println(taskManager.getHistory());
-
     }
 }

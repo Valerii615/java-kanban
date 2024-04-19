@@ -11,7 +11,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public void add(Task task) {
         Node<Task> node = new Node<>(null, task, null);
-        if(listNodes.containsKey(task.getId())) {
+        if (listNodes.containsKey(task.getId())) {
             browsingHistory.removeNode(listNodes.get(task.getId()));
         }
         browsingHistory.linkLast(node);
@@ -26,7 +26,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void remove(int id) {
-        if(listNodes.containsKey(id)) browsingHistory.removeNode(listNodes.get(id));
+        if (listNodes.containsKey(id)) browsingHistory.removeNode(listNodes.get(id));
     }
 
     private static class CustomLinkedList<T> {
@@ -49,7 +49,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
         /**
          * получение списка задачь из свсясзанного списка
-         *
          */
 
         List<Task> getTasks() {
@@ -64,7 +63,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
         /**
          * удаление из связанного списка
-         *
          */
         void removeNode(Node<T> node) {
             Node<T> prevNode = node.prev;
@@ -85,11 +83,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
-
-
     /**
      * класс описывающий узел кастомного списка
-     *
      */
     private static class Node<T> {
         public Node<T> prev;// предыдущий узел

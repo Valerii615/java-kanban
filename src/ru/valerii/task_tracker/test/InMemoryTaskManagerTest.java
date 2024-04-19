@@ -106,7 +106,7 @@ class InMemoryTaskManagerTest {
         List<Task> history = taskManager.getHistory();
         assertEquals(3, history.size(), "история имеет неверное количество сохраненных значений");
         for (int i = 0; i < history.size(); i++) {
-            switch (i){
+            switch (i) {
                 case 0:
                     assertEquals(task1, history.get(0), "сохранена неверная задача");
                     break;
@@ -121,7 +121,7 @@ class InMemoryTaskManagerTest {
         taskManager.getEpicOfId(3);
         taskManager.getEpicOfId(5);
 
-        assertTrue(history.size() == 3, "возможно история имеет одинаковые задачи" );
+        assertTrue(history.size() == 3, "возможно история имеет одинаковые задачи");
     }
 
     /**
