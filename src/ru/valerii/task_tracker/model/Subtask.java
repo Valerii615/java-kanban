@@ -6,9 +6,9 @@ import ru.valerii.task_tracker.service.Status;
 public class Subtask extends Task {
     private int idEpic;
 
-    public Subtask(String nameTask, String descriptionTask, Status statusTask, int IdEpic) {
+    public Subtask(String nameTask, String descriptionTask, Status statusTask, int idEpic) {
         super(nameTask, descriptionTask, statusTask);
-        this.idEpic = IdEpic;
+        this.idEpic = idEpic;
     }
 
     public int getIdEpic() {
