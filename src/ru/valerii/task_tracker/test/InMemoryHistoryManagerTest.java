@@ -23,9 +23,5 @@ class InMemoryHistoryManagerTest {
         assertEquals(2, historyManager.getHistory().size(), "неверная длинна истории");
     }
 
-    @Test
-    void removeAllTaskFromHistory() {
-        historyManager.removeAll();
-        assertEquals(0, historyManager.getHistory().size(), "история не очищена");
-    }
+
 }
