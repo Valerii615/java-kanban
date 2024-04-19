@@ -163,19 +163,19 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void checkStatus(Epic epic) {
-        int counterNEW = 0;
-        int counterIN_PROGRESS = 0;
-        int counterDONE = 0;
+        int counterNew = 0;
+        int counterInProgress = 0;
+        int counterDone = 0;
 
         for (Integer idSub : epic.getSubtaskId()) {
             Subtask subtask1 = subtasks.get(idSub);
-            if (subtask1.getStatus() == Status.NEW) counterNEW++;
-            if (subtask1.getStatus() == Status.IN_PROGRESS) counterIN_PROGRESS++;
-            if (subtask1.getStatus() == Status.DONE) counterDONE++;
+            if (subtask1.getStatus() == Status.NEW) counterNew++;
+            if (subtask1.getStatus() == Status.IN_PROGRESS) counterInProgress++;
+            if (subtask1.getStatus() == Status.DONE) counterDone++;
         }
-        if (counterNEW >= 0 && counterIN_PROGRESS == 0 && counterDONE == 0) {
+        if (counterNew >= 0 && counterInProgress == 0 && counterDone == 0) {
             epic.setStatus(Status.NEW);
-        } else if (counterDONE > 0 && counterIN_PROGRESS == 0 && counterNEW == 0) {
+        } else if (counterDone > 0 && counterInProgress == 0 && counterNew == 0) {
             epic.setStatus(Status.DONE);
         } else {
             epic.setStatus(Status.IN_PROGRESS);
