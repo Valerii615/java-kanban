@@ -26,12 +26,12 @@ public class Main {
         System.out.println(taskManager.getHistory());
 
         System.out.println("del sub");
-        taskManager.deleteSubtaskOfId(4);
+        taskManager.removeSubtaskOfId(4);
         System.out.println(taskManager.getHistory());
 
         System.out.println("del epi");
 
-        taskManager.deleteEpicOfId(2);
+        taskManager.removeEpicOfId(2);
         System.out.println(taskManager.getHistory());
     }
 }

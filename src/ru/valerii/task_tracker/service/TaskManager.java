@@ -40,11 +40,11 @@ public interface TaskManager {
 
     void removeAllTask();
 
-    void renoveTaskOfId(int id);
+    void removeTaskOfId(int id);
 
     void removeEpicOfId(int id);
 
-    void renoveSubtaskOfId(int id);
+    void removeSubtaskOfId(int id);
 
     void checkStatus(Epic epic);
 

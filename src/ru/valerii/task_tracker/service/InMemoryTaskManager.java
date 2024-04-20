@@ -129,7 +129,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void renoveTaskOfId(int id) {
+    public void removeTaskOfId(int id) {
         historyManager.remove(tasks.get(id).getId());
         tasks.remove(id);
     }
@@ -146,7 +146,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void renoveSubtaskOfId(int id) {
+    public void removeSubtaskOfId(int id) {
         Subtask subtask = subtasks.get(id);
         int hashEpic = subtask.getIdEpic();
 
