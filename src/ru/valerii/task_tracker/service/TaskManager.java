@@ -38,13 +38,13 @@ public interface TaskManager {
 
     ArrayList<Subtask> getAllSubtaskOfEpic(int idEpic);
 
-    void deleteAllTask();
+    void removeAllTask();
 
-    void deleteTaskOfId(int id);
+    void removeTaskOfId(int id);
 
-    void deleteEpicOfId(int id);
+    void removeEpicOfId(int id);
 
-    void deleteSubtaskOfId(int id);
+    void removeSubtaskOfId(int id);
 
     void checkStatus(Epic epic);
 

@@ -1,5 +1,3 @@
-package ru.valerii.task_tracker.test;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -36,6 +34,20 @@ class InMemoryTaskManagerTest {
         taskManager.addSubtask(new Subtask("Подзадача №1.Эпик1", "Описание", Status.NEW, 3));
         taskManager.addSubtask(new Subtask("Подзадача №2.Эпик1", "Описание", Status.NEW, 3));
         taskManager.addSubtask(new Subtask("Подзадача №1.Эпик2", "Описание", Status.NEW, 4));
+    }
+
+    /**
+     * проверка на получение задачи с заведомо несуществующим id
+     * <p>
+     * елси нет возможности получить несуществующую задачу,
+     * <p>
+     * тогда нет возможности удалить, обновить задачю, добавить подзадачу по несуществующему id
+     */
+    @Test
+    void gettingNonExistentTasks() {
+        assertNull(taskManager.getTaskOfId(999), "найдeна несуществующая задача");
+        assertNull(taskManager.getEpicOfId(999), "найдeна несуществующая задача");
+        assertNull(taskManager.getSubtaskOfId(999), "найдeна несуществующая задача");
     }
 
     /**
@@ -95,39 +107,46 @@ class InMemoryTaskManagerTest {
     }
 
     /**
-     * провера на добавление задачи в историю
+     * провера на добавление задачи в историю, проверка дулбикатов
      */
     @Test
     void checkTheAdditionOfTaskToTheHierarchy() {
-        Task taskPozi1 = taskManager.getTaskOfId(1);
-        Task taskPozi2 = taskManager.getEpicOfId(3);
-        Task taskPozi3 = taskManager.getSubtaskOfId(5);
+        Task task1 = taskManager.getTaskOfId(1);
+        Task task2 = taskManager.getEpicOfId(3);
+        Task task3 = taskManager.getSubtaskOfId(5);
 
         List<Task> history = taskManager.getHistory();
         assertEquals(3, history.size(), "история имеет неверное количество сохраненных значений");
         for (int i = 0; i < history.size(); i++) {
-            switch (i){
+            switch (i) {
                 case 0:
-                    assertEquals(taskPozi1, history.get(0), "сохранена неверная задача");
+                    assertEquals(task1, history.get(0), "сохранена неверная задача");
                     break;
                 case 1:
-                    assertEquals(taskPozi2, history.get(1), "сохранена неверная задача");
+                    assertEquals(task2, history.get(1), "сохранена неверная задача");
                     break;
                 case 2:
-                    assertEquals(taskPozi3, history.get(2), "сохранена неверная задача");
+                    assertEquals(task3, history.get(2), "сохранена неверная задача");
             }
         }
         taskManager.getTaskOfId(1);
-        taskManager.getTaskOfId(2);
         taskManager.getEpicOfId(3);
-        taskManager.getEpicOfId(3);
-        taskManager.getEpicOfId(4);
-        taskManager.getEpicOfId(4);
-        taskManager.getSubtaskOfId(7);
-        taskManager.getSubtaskOfId(5);
-        taskManager.getSubtaskOfId(6);
+        taskManager.getEpicOfId(5);
 
-        assertTrue(history.size() <= 10, "история имеет больше 10 сохраненных значений" );
+        assertTrue(history.size() == 3, "возможно история имеет одинаковые задачи");
+    }
+
+    /**
+     * проверка на удаление задачи из истории
+     * </p>
+     * проверка наличия неактуальных подзадачь в эпиках
+     */
+    @Test
+    void deletingFromTheHistory() {
+        taskManager.removeTaskOfId(1);
+        assertEquals(2, taskManager.getHistory().size(), "задача не удалена из истории");
+        taskManager.removeSubtaskOfId(5);
+        assertEquals(1, taskManager.getAllSubtaskOfEpic(3).size(), "осталcь неактуальная подзадача");
     }
 
     /**
@@ -135,13 +154,13 @@ class InMemoryTaskManagerTest {
      */
     @AfterAll
     static void checkingForDeletionOfTasks() {
-        taskManager.deleteTaskOfId(1);
-        taskManager.deleteEpicOfId(4);
-        assertNull(taskManager.getTaskOfId(1), "задача не удалена");
+        taskManager.removeTaskOfId(2);
+        taskManager.removeEpicOfId(4);
+        assertNull(taskManager.getTaskOfId(2), "задача не удалена");
         assertNull(taskManager.getEpicOfId(4), "задача не удалена");
         assertNull(taskManager.getSubtaskOfId(7), "задача не удалена");
 
-        taskManager.deleteAllTask();
+        taskManager.removeAllTask();
         assertEquals(0, taskManager.getTasks().size(), "остались неудаленные задачи");
         assertEquals(0, taskManager.getEpics().size(), "остались неудаленные задачи");
         assertEquals(0, taskManager.getSubtasks().size(), "остались неудаленные задачи");

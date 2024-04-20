@@ -122,37 +122,35 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteAllTask() {
+    public void removeAllTask() {
         tasks.clear();
         epics.clear();
         subtasks.clear();
-        historyManager.removeAll();
     }
 
     @Override
-    public void deleteTaskOfId(int id) {
-        Task task = tasks.get(id);
-        historyManager.remove(task);
+    public void removeTaskOfId(int id) {
+        historyManager.remove(tasks.get(id).getId());
         tasks.remove(id);
     }
 
     @Override
-    public void deleteEpicOfId(int id) {
+    public void removeEpicOfId(int id) {
         Epic epic = epics.get(id);
         for (Integer isSub : epic.getSubtaskId()) {
-            historyManager.remove(subtasks.get(isSub));
+            historyManager.remove(subtasks.get(isSub).getId());
             subtasks.remove(isSub);
         }
-        historyManager.remove(epic);
+        historyManager.remove(epic.getId());
         epics.remove(id);
     }
 
     @Override
-    public void deleteSubtaskOfId(int id) {
+    public void removeSubtaskOfId(int id) {
         Subtask subtask = subtasks.get(id);
         int hashEpic = subtask.getIdEpic();
 
-        historyManager.remove(subtask);
+        historyManager.remove(subtask.getId());
         subtasks.remove(id);
         Epic epic = epics.get(hashEpic);
         for (int i = 0; i < epic.getSubtaskId().size(); i++) {
@@ -165,19 +163,19 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void checkStatus(Epic epic) {
-        int counterNEW = 0;
-        int counterIN_PROGRESS = 0;
-        int counterDONE = 0;
+        int counterNew = 0;
+        int counterInProgress = 0;
+        int counterDone = 0;
 
         for (Integer idSub : epic.getSubtaskId()) {
             Subtask subtask1 = subtasks.get(idSub);
-            if (subtask1.getStatus() == Status.NEW) counterNEW++;
-            if (subtask1.getStatus() == Status.IN_PROGRESS) counterIN_PROGRESS++;
-            if (subtask1.getStatus() == Status.DONE) counterDONE++;
+            if (subtask1.getStatus() == Status.NEW) counterNew++;
+            if (subtask1.getStatus() == Status.IN_PROGRESS) counterInProgress++;
+            if (subtask1.getStatus() == Status.DONE) counterDone++;
         }
-        if (counterNEW >= 0 && counterIN_PROGRESS == 0 && counterDONE == 0) {
+        if (counterNew >= 0 && counterInProgress == 0 && counterDone == 0) {
             epic.setStatus(Status.NEW);
-        } else if (counterDONE > 0 && counterIN_PROGRESS == 0 && counterNEW == 0) {
+        } else if (counterDone > 0 && counterInProgress == 0 && counterNew == 0) {
             epic.setStatus(Status.DONE);
         } else {
             epic.setStatus(Status.IN_PROGRESS);
