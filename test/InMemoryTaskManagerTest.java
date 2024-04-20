@@ -37,6 +37,20 @@ class InMemoryTaskManagerTest {
     }
 
     /**
+     * проверка на получение задачи с заведомо несуществующим id
+     * <p>
+     * елси нет возможности получить несуществующую задачу,
+     * <p>
+     * тогда нет возможности удалить, обновить задачю, добавить подзадачу по несуществующему id
+     */
+    @Test
+    void gettingNonExistentTasks() {
+        assertNull(taskManager.getTaskOfId(999), "найдeна несуществующая задача");
+        assertNull(taskManager.getEpicOfId(999), "найдeна несуществующая задача");
+        assertNull(taskManager.getSubtaskOfId(999), "найдeна несуществующая задача");
+    }
+
+    /**
      * проверка на добавление задач
      */
     @Test
@@ -129,9 +143,9 @@ class InMemoryTaskManagerTest {
      */
     @Test
     void deletingFromTheHistory() {
-        taskManager.deleteTaskOfId(1);
+        taskManager.removeTaskOfId(1);
         assertEquals(2, taskManager.getHistory().size(), "задача не удалена из истории");
-        taskManager.deleteSubtaskOfId(5);
+        taskManager.removeSubtaskOfId(5);
         assertEquals(1, taskManager.getAllSubtaskOfEpic(3).size(), "осталcь неактуальная подзадача");
     }
 
@@ -140,13 +154,13 @@ class InMemoryTaskManagerTest {
      */
     @AfterAll
     static void checkingForDeletionOfTasks() {
-        taskManager.deleteTaskOfId(2);
-        taskManager.deleteEpicOfId(4);
+        taskManager.removeTaskOfId(2);
+        taskManager.removeEpicOfId(4);
         assertNull(taskManager.getTaskOfId(2), "задача не удалена");
         assertNull(taskManager.getEpicOfId(4), "задача не удалена");
         assertNull(taskManager.getSubtaskOfId(7), "задача не удалена");
 
-        taskManager.deleteAllTask();
+        taskManager.removeAllTask();
         assertEquals(0, taskManager.getTasks().size(), "остались неудаленные задачи");
         assertEquals(0, taskManager.getEpics().size(), "остались неудаленные задачи");
         assertEquals(0, taskManager.getSubtasks().size(), "остались неудаленные задачи");
