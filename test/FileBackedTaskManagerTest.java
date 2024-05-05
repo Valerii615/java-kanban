@@ -77,7 +77,5 @@ public class FileBackedTaskManagerTest {
         assertTrue(fileBackedTaskManager.getTasks().isEmpty(), "Задачи типа Task не удалились из постоянной памяти");
         assertTrue(fileBackedTaskManager.getEpics().isEmpty(), "Задачи типа Epic из постоянной памяти");
         assertTrue(fileBackedTaskManager.getSubtasks().isEmpty(), "Задачи типа Subtask из постоянной памяти");
-
     }
-
 }

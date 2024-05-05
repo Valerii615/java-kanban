@@ -10,7 +10,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileBackedTaskManager extends InMemoryTaskManager{
+public class FileBackedTaskManager extends InMemoryTaskManager {
     @Override
     public void addTask(Task task) {
         super.addTask(task);
@@ -31,7 +31,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
 
     @Override
     public Task getTaskOfId(int id) {
-       Task task = super.getTaskOfId(id);
+        Task task = super.getTaskOfId(id);
         save();
         return task;
     }
@@ -90,19 +90,20 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
         super.removeSubtaskOfId(id);
         save();
     }
+
     public void save() {
         List<Task> tasksList = getTasks();
         List<Epic> epicsList = getEpics();
         List<Subtask> subtasksList = getSubtasks();
 
-        try(Writer fileWriter = new FileWriter("src/ru/valerii/task_tracker/task_storage.csv")) {
-            for (Task task: tasksList) {
+        try (Writer fileWriter = new FileWriter("src/ru/valerii/task_tracker/task_storage.csv")) {
+            for (Task task : tasksList) {
                 fileWriter.write(toStringTask(task) + "\n");
             }
-            for (Epic epic: epicsList) {
+            for (Epic epic : epicsList) {
                 fileWriter.write(toStringEpic(epic) + "\n");
             }
-            for (Subtask subtask: subtasksList) {
+            for (Subtask subtask : subtasksList) {
                 fileWriter.write(toStringSubtask(subtask) + "\n");
             }
 
@@ -110,18 +111,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
             throw new ManagerSaveException("Данные не сохранены");
         }
     }
-     public String toStringTask(Task task) {
-        return String.format("%d,TASK,%s,%s,%s", task.getId(),task.getName(),task.getStatus(),task.getDescription());
-     }
-     public String toStringEpic(Epic epic) {
-        return String.format("%d,EPIC,%s,%s,%s", epic.getId(),epic.getName(),epic.getStatus(),epic.getDescription());
-     }
-     public String toStringSubtask (Subtask subtask) {
-        return String.format("%d,SUBTASK,%s,%s,%s,%d",
-                subtask.getId(),subtask.getName(),subtask.getStatus(),subtask.getDescription(), subtask.getIdEpic());
-     }
 
-     public FileBackedTaskManager loadFromFile(String fileName) {
+    public String toStringTask(Task task) {
+        return String.format("%d,TASK,%s,%s,%s", task.getId(), task.getName(), task.getStatus(), task.getDescription());
+    }
+
+    public String toStringEpic(Epic epic) {
+        return String.format("%d,EPIC,%s,%s,%s", epic.getId(), epic.getName(), epic.getStatus(), epic.getDescription());
+    }
+
+    public String toStringSubtask(Subtask subtask) {
+        return String.format("%d,SUBTASK,%s,%s,%s,%d",
+                subtask.getId(), subtask.getName(), subtask.getStatus(), subtask.getDescription(), subtask.getIdEpic());
+    }
+
+    public FileBackedTaskManager loadFromFile(String fileName) {
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager();
         List<String> tasksListBacked = new ArrayList<>();
         try (FileReader reader = new FileReader(fileName); BufferedReader bufferedReader = new BufferedReader(reader)) {
@@ -129,7 +133,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
                 tasksListBacked.add(bufferedReader.readLine());
             }
             if (!tasksListBacked.isEmpty()) {
-                for (String taskLine: tasksListBacked) {
+                for (String taskLine : tasksListBacked) {
                     String[] taskContent = fromeString(taskLine);
                     switch (taskContent[1]) {
                         case "TASK":
@@ -158,20 +162,20 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
             throw new ManagerSaveException("Ошибка Чтения файла");
         }
         return fileBackedTaskManager;
-     }
+    }
 
-     public int checkCounterId(int idTask, int idCount) {
+    public int checkCounterId(int idTask, int idCount) {
         if (idCount <= idCount) {
             idCount = idTask + 1;
             return idCount;
         } else {
             return idCount;
         }
-     }
+    }
 
-     public String[] fromeString(String value) {// псделать из трех методов один, в зависимости от флага возращается определенная задача
-         return value.split(",");
-     }
+    public String[] fromeString(String value) {// псделать из трех методов один, в зависимости от флага возращается определенная задача
+        return value.split(",");
+    }
 
     public Status checkingStatusFromString(String status) {
         switch (status) {
@@ -184,5 +188,4 @@ public class FileBackedTaskManager extends InMemoryTaskManager{
         }
         return null;
     }
-
 }
