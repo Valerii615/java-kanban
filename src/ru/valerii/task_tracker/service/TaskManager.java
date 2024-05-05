@@ -18,9 +18,9 @@ public interface TaskManager {
 
     ArrayList<Task> getTasks();
 
-    ArrayList<Task> getEpics();
+    ArrayList<Epic> getEpics();
 
-    ArrayList<Task> getSubtasks();
+    ArrayList<Subtask> getSubtasks();
 
     Task getTaskOfId(int id);
 

@@ -83,7 +83,7 @@ class InMemoryTaskManagerTest {
                     break;
             }
         }
-        ArrayList<Task> epics = taskManager.getEpics();
+        ArrayList<Epic> epics = taskManager.getEpics();
         for (int i = 0; i < epics.size(); i++) {
             switch (i) {
                 case 0:
@@ -93,7 +93,7 @@ class InMemoryTaskManagerTest {
                     assertEquals(Status.DONE, epics.get(i).getStatus(), "Не удалось изменить статус эпика " + epics.get(i).getName());
             }
         }
-        ArrayList<Task> subtasks = taskManager.getSubtasks();
+        ArrayList<Subtask> subtasks = taskManager.getSubtasks();
         for (int i = 0; i < subtasks.size(); i++) {
             switch (i) {
                 case 0:

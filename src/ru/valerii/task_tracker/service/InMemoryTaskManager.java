@@ -9,16 +9,25 @@ import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
-    private int id;
+
+    private int idCount;
     HistoryManager historyManager = Managers.getDefaultHistory();
     HashMap<Integer, Task> tasks = new HashMap<>();
     HashMap<Integer, Epic> epics = new HashMap<>();
     HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
+    public int getIdCount() {
+        return idCount;
+    }
+
+    public void setIdCount(int idCount) {
+        this.idCount = idCount;
+    }
+
     @Override
     public int generateId() {
-        id++;
-        return id;
+        idCount++;
+        return idCount;
     }
 
     @Override
@@ -51,12 +60,12 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> getEpics() {
+    public ArrayList<Epic> getEpics() {
         return new ArrayList<>(epics.values());
     }
 
     @Override
-    public ArrayList<Task> getSubtasks() {
+    public ArrayList<Subtask> getSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
 
