@@ -4,7 +4,8 @@ public class ManagerSaveStatusException  extends RuntimeException {
     public ManagerSaveStatusException() {
 
     }
-    public ManagerSaveStatusException (String message) {
+
+    public ManagerSaveStatusException(String message) {
         super(message);
     }
 }
