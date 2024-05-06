@@ -1,6 +1,7 @@
 package ru.valerii.task_tracker.service;
 
 import ru.valerii.task_tracker.Exception.ManagerSaveException;
+import ru.valerii.task_tracker.Exception.ManagerSaveStatusException;
 import ru.valerii.task_tracker.model.Epic;
 import ru.valerii.task_tracker.model.Subtask;
 import ru.valerii.task_tracker.model.Task;
@@ -38,9 +39,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     @Override
     public Epic getEpicOfId(int id) {
-        Epic epic = super.getEpicOfId(id);
-        save();
-        return epic;
+        try {
+            Epic epic = super.getEpicOfId(id);
+            save();
+            return epic;
+        } catch (RuntimeException e) {
+            throw new ManagerSaveException("Epic с заданным id не существует");
+        }
+
     }
 
     @Override
@@ -71,6 +77,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public void removeAllTask() {
         super.removeAllTask();
         save();
+    }
+
+    public void removeAllTaskNotSave() {
+        super.removeAllTask();
     }
 
     @Override
@@ -107,7 +117,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             for (Subtask subtask : subtasksList) {
                 fileWriter.write(toStringSubtask(subtask) + "\n");
             }
-
         } catch (IOException e) {
             throw new ManagerSaveException("Данные не сохранены");
         }
@@ -147,6 +156,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                             Epic epic = new Epic(taskContent[2], taskContent[4]);
                             epic.setStatus(checkingStatusFromString(taskContent[3]));
                             epic.setId(Integer.parseInt(taskContent[0]));
+                            epics.put(epic.getId(), epic);
                             fileBackedTaskManager.setIdCount(checkCounterId(Integer.parseInt(taskContent[0]), fileBackedTaskManager.getIdCount()));
                             break;
                         case "SUBTASK":
@@ -154,13 +164,24 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                             subtask.setId(Integer.parseInt(taskContent[0]));
                             Epic epicFromSubtask = epics.get(Integer.parseInt(taskContent[5]));
                             epicFromSubtask.getSubtaskId().add(subtask.getId());
+                            subtasks.put(subtask.getId(), subtask);
                             fileBackedTaskManager.setIdCount(checkCounterId(Integer.parseInt(taskContent[0]), fileBackedTaskManager.getIdCount()));
                             break;
+                        default:
+                            throw new ManagerSaveException();
                     }
                 }
             }
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка Чтения файла");
+        } catch (NumberFormatException e) {
+            throw new ManagerSaveException("Неверный формат id");
+        } catch (ManagerSaveException e) {
+            throw new ManagerSaveException("Неверный тип задачи");
+        } catch (ManagerSaveStatusException e) {
+            throw new ManagerSaveStatusException("Неверный формат статуса");
+        } catch (RuntimeException e) {
+            throw new ManagerSaveException("Epic с заданным id не существует");
         }
         return fileBackedTaskManager;
     }
@@ -186,7 +207,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 return Status.IN_PROGRESS;
             case "DONE":
                 return Status.DONE;
+            default:
+                throw new ManagerSaveStatusException();
         }
-        return null;
     }
 }
