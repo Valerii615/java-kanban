@@ -95,8 +95,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public Task getTaskOfIdNotHistory(int id) {
-        if (this.tasks.get(id) != null) {
-        }
         return this.tasks.get(id);
     }
 
@@ -117,8 +115,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public Subtask getSubtaskOfIdNotHistory(int id) {
-        if (this.subtasks.get(id) != null) {
-        }
         return this.subtasks.get(id);
     }
 
