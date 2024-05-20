@@ -23,10 +23,11 @@ public class InMemoryHistoryManager implements HistoryManager {
     public List<Task> getHistory() {
         return browsingHistory.getTasks();
     }
+
     @Override
     public void clear() {
         List<Task> history = getHistory();
-        for (Task task: history) {
+        for (Task task : history) {
             remove(task.getId());
         }
     }
