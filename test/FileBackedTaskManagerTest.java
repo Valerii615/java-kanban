@@ -9,6 +9,9 @@ import ru.valerii.task_tracker.service.FileBackedTaskManager;
 import ru.valerii.task_tracker.service.Status;
 
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FileBackedTaskManagerTest {
@@ -23,15 +26,15 @@ public class FileBackedTaskManagerTest {
     static void creatingAndSavingTasks() {
         fileBackedTaskManager = new FileBackedTaskManager();
 
-        fileBackedTaskManager.addTask(new Task("Обычная задача №1", "Описание", Status.NEW));
-        fileBackedTaskManager.addTask(new Task("Обычная задача №2", "Описание", Status.NEW));
+        fileBackedTaskManager.addTask(new Task("Обычная задача №1", "Описание", Status.NEW, LocalDateTime.of(2024,5,17,12,0), Duration.ofMinutes(30)));
+        fileBackedTaskManager.addTask(new Task("Обычная задача №2", "Описание", Status.NEW, LocalDateTime.of(2024,5,17,13,0), Duration.ofMinutes(30)));
 
         fileBackedTaskManager.addEpic(new Epic("Эпик задача №1 с 2-мя подзадачами", "Описание"));
         fileBackedTaskManager.addEpic(new Epic("Эпик задача №2 с одной подзадачей", "Описание"));
 
-        fileBackedTaskManager.addSubtask(new Subtask("Подзадача №1.Эпик1", "Описание", Status.NEW, 3));
-        fileBackedTaskManager.addSubtask(new Subtask("Подзадача №2.Эпик1", "Описание", Status.NEW, 3));
-        fileBackedTaskManager.addSubtask(new Subtask("Подзадача №1.Эпик2", "Описание", Status.NEW, 4));
+        fileBackedTaskManager.addSubtask(new Subtask("Подзадача №1.Эпик1", "Описание", Status.NEW, 3, LocalDateTime.of(2024,5,17,14,0), Duration.ofMinutes(30)));
+        fileBackedTaskManager.addSubtask(new Subtask("Подзадача №2.Эпик1", "Описание", Status.NEW, 3, LocalDateTime.of(2024,5,17,15,0), Duration.ofMinutes(30)));
+        fileBackedTaskManager.addSubtask(new Subtask("Подзадача №1.Эпик2", "Описание", Status.NEW, 4, LocalDateTime.of(2024,5,17,16,0), Duration.ofMinutes(30)));
     }
 
     /**
@@ -42,6 +45,14 @@ public class FileBackedTaskManagerTest {
         assertFalse(fileBackedTaskManager.getTasks().isEmpty(), "Задачи типа Task не сохранились в оперативную память");
         assertFalse(fileBackedTaskManager.getEpics().isEmpty(), "Задачи типа Epic не сохранились в оперативной памяти");
         assertFalse(fileBackedTaskManager.getSubtasks().isEmpty(), "Задачи типа Subtask не сохранились в оперативной памяти");
+    }
+
+    /**
+     * проверка на наличие сохраненного id в подзадаче
+     */
+    @Test
+    public void checkingForSavedIdInSubtask() {
+        assertEquals(3, fileBackedTaskManager.getSubtaskOfId(5).getIdEpic(), "неверно сохранненый id эпика");
     }
 
     /**
