@@ -3,11 +3,19 @@ package ru.valerii.task_tracker.model;
 
 import ru.valerii.task_tracker.service.Status;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Subtask extends Task {
     private int idEpic;
 
     public Subtask(String nameTask, String descriptionTask, Status statusTask, int idEpic) {
         super(nameTask, descriptionTask, statusTask);
+        this.idEpic = idEpic;
+    }
+
+    public Subtask(String nameTask, String descriptionTask, Status statusTask, int idEpic, LocalDateTime localDateTime, Duration duration) {
+        super(nameTask, descriptionTask, statusTask, localDateTime, duration);
         this.idEpic = idEpic;
     }
 
@@ -22,6 +30,8 @@ public class Subtask extends Task {
                 ", Название='" + getName() + '\'' +
                 ", Описание='" + getDescription() + '\'' +
                 ", Статус='" + getStatus() + '\'' +
+                ",timeStart='" + getStartTime() + '\'' +
+                ",duration='" + getDuration() + '\'' +
                 "}" +
                 "\n";
     }

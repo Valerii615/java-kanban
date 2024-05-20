@@ -2,6 +2,8 @@ package ru.valerii.task_tracker.model;
 
 import ru.valerii.task_tracker.service.Status;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -9,6 +11,16 @@ public class Task {
     private String description;
     private int id;
     private Status status;
+    private LocalDateTime startTime;
+    private Duration duration;
+
+    public Task(String name, String description, Status status, LocalDateTime startTime, Duration duration) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.startTime = startTime;
+        this.duration = duration;
+    }
 
     public Task(String nameTask, String descriptionTask, Status statusTask) {
         this.name = nameTask;
@@ -45,6 +57,13 @@ public class Task {
         this.status = status;
     }
 
+    public LocalDateTime getEndTime() {
+        if ((startTime != null) | !duration.isZero()){
+            return startTime.plus(duration);
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return "задача {" +
@@ -52,6 +71,8 @@ public class Task {
                 ", Название='" + getName() + '\'' +
                 ", Описание='" + getDescription() + '\'' +
                 ", Статус='" + getStatus() + '\'' +
+                ",timeStart='" + getStartTime() + '\'' +
+                ",duration='" + getDuration() + '\'' +
                 "}" +
                 "\n";
     }
@@ -77,5 +98,21 @@ public class Task {
             hash = hash + description.hashCode();
         }
         return hash;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
 }
