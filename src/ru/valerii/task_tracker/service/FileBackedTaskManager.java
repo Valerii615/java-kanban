@@ -8,6 +8,8 @@ import ru.valerii.task_tracker.model.Task;
 
 
 import java.io.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,16 +125,38 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public String toStringTask(Task task) {
-        return String.format("%d,TASK,%s,%s,%s", task.getId(), task.getName(), task.getStatus(), task.getDescription());
+        return String.format("%d,TASK,%s,%s,%s,%s,%s",
+                task.getId(),
+                task.getName(),
+                task.getStatus(),
+                task.getDescription(),
+                task.getStartTime(),
+                task.getDuration()
+        );
     }
 
     public String toStringEpic(Epic epic) {
-        return String.format("%d,EPIC,%s,%s,%s", epic.getId(), epic.getName(), epic.getStatus(), epic.getDescription());
+        return String.format("%d,EPIC,%s,%s,%s,%s,%s,%s",
+                epic.getId(),
+                epic.getName(),
+                epic.getStatus(),
+                epic.getDescription(),
+                epic.getStartTime(),
+                epic.getDuration(),
+                epic.getEndTime()
+        );
     }
 
     public String toStringSubtask(Subtask subtask) {
-        return String.format("%d,SUBTASK,%s,%s,%s,%d",
-                subtask.getId(), subtask.getName(), subtask.getStatus(), subtask.getDescription(), subtask.getIdEpic());
+        return String.format("%d,SUBTASK,%s,%s,%s,%d,%s,%s",
+                subtask.getId(),
+                subtask.getName(),
+                subtask.getStatus(),
+                subtask.getDescription(),
+                subtask.getIdEpic(),
+                subtask.getStartTime(),
+                subtask.getDuration()
+        );
     }
 
     public FileBackedTaskManager loadFromFile(String fileName) {
@@ -147,24 +171,47 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     String[] taskContent = fromeString(taskLine);
                     switch (taskContent[1]) {
                         case "TASK":
-                            Task task = new Task(taskContent[2], taskContent[4], checkingStatusFromString(taskContent[3]));
+                            Task task = new Task(
+                                    taskContent[2],
+                                    taskContent[4],
+                                    checkingStatusFromString(taskContent[3]),
+                                    LocalDateTime.parse(taskContent[5]),
+                                    Duration.parse(taskContent[6])
+                            );
                             task.setId(Integer.parseInt(taskContent[0]));
                             tasks.put(task.getId(), task);
-                            fileBackedTaskManager.setIdCount(checkCounterId(Integer.parseInt(taskContent[0]), fileBackedTaskManager.getIdCount()));
+                            prioritizedTasks.add(task);
+                            fileBackedTaskManager.setIdCount(checkCounterId(Integer.parseInt(taskContent[0]),
+                                    fileBackedTaskManager.getIdCount()));
                             break;
                         case "EPIC":
-                            Epic epic = new Epic(taskContent[2], taskContent[4]);
+                            Epic epic = new Epic(
+                                    taskContent[2],
+                                    taskContent[4]
+                            );
                             epic.setStatus(checkingStatusFromString(taskContent[3]));
                             epic.setId(Integer.parseInt(taskContent[0]));
+                            epic.setStartTime(LocalDateTime.parse(taskContent[5]));
+                            epic.setDuration(Duration.parse(taskContent[6]));
+                            epic.setEndTime(LocalDateTime.parse(taskContent[7]));
                             epics.put(epic.getId(), epic);
+                            prioritizedTasks.add(epic);
                             fileBackedTaskManager.setIdCount(checkCounterId(Integer.parseInt(taskContent[0]), fileBackedTaskManager.getIdCount()));
                             break;
                         case "SUBTASK":
-                            Subtask subtask = new Subtask(taskContent[2], taskContent[4], checkingStatusFromString(taskContent[3]), Integer.parseInt(taskContent[5]));
+                            Subtask subtask = new Subtask(
+                                    taskContent[2],
+                                    taskContent[4],
+                                    checkingStatusFromString(taskContent[3]),
+                                    Integer.parseInt(taskContent[5]),
+                                    LocalDateTime.parse(taskContent[6]),
+                                    Duration.parse(taskContent[7])
+                            );
                             subtask.setId(Integer.parseInt(taskContent[0]));
                             Epic epicFromSubtask = epics.get(Integer.parseInt(taskContent[5]));
                             epicFromSubtask.getSubtaskId().add(subtask.getId());
                             subtasks.put(subtask.getId(), subtask);
+                            prioritizedTasks.add(subtask);
                             fileBackedTaskManager.setIdCount(checkCounterId(Integer.parseInt(taskContent[0]), fileBackedTaskManager.getIdCount()));
                             break;
                         default:
