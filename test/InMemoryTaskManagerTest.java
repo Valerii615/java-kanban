@@ -83,7 +83,6 @@ class InMemoryTaskManagerTest {
         taskManager.updateSubtask(5, new Subtask("Подзадача обновленная №1.Эпик1", "Описание", Status.IN_PROGRESS, 3));
         taskManager.updateSubtask(6, new Subtask("Подзадача обновленная №2.Эпик1", "Описание", Status.DONE, 3));
         taskManager.updateSubtask(7, new Subtask("Подзадача обновленная №1.Эпик2", "Описание", Status.DONE, 4));
-
         ArrayList<Task> tasks = taskManager.getTasks();
         for (int i = 0; i < tasks.size(); i++) {
             switch (i) {
@@ -190,6 +189,4 @@ class Wrapper1 implements Executable {
     public void execute(){
         InMemoryTaskManagerTest.taskManager.addTask(new Task("Обычная задача №1", "Описание", Status.NEW, LocalDateTime.of(2024,5,17,12,0), Duration.ofMinutes(30)));
     }
-
-
 }
