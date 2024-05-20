@@ -186,7 +186,7 @@ class InMemoryTaskManagerTest {
 class Wrapper1 implements Executable {
 
     @Override
-    public void execute(){
-        InMemoryTaskManagerTest.taskManager.addTask(new Task("Обычная задача №1", "Описание", Status.NEW, LocalDateTime.of(2024,5,17,12,0), Duration.ofMinutes(30)));
+    public void execute() {
+        InMemoryTaskManagerTest.taskManager.addTask(new Task("Обычная задача №1", "Описание", Status.NEW, LocalDateTime.of(2024, 5, 17, 12, 0), Duration.ofMinutes(30)));
     }
 }

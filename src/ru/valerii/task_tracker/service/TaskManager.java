@@ -47,5 +47,6 @@ public interface TaskManager {
     void removeSubtaskOfId(int id);
 
     void checkStatus(Epic epic);
+    public List<Task> getPrioritizedTasksList();
 
 }

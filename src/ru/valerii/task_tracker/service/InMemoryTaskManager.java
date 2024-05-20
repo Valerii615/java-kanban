@@ -89,6 +89,11 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
+    public List<Task> getPrioritizedTasksList() {
+        return new ArrayList<>(prioritizedTasks);
+    }
+
+    @Override
     public Task getTaskOfId(int id) {
         if (this.tasks.get(id) != null) {
             historyManager.add(this.tasks.get(id));
