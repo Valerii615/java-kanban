@@ -58,7 +58,7 @@ public class Task {
     }
 
     public LocalDateTime getEndTime() {
-        if ((startTime != null) | !duration.isZero()){
+        if ((startTime != null) | !duration.isZero()) {
             return startTime.plus(duration);
         }
         return null;
