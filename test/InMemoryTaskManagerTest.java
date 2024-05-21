@@ -46,7 +46,7 @@ class InMemoryTaskManagerTest {
     public void correctnessOfTheCalculationOfTheTimeIntersectionOfTasks() {
         Wrapper1 wrapper1 = new Wrapper1();
         Exception exception = assertThrows(RuntimeException.class, wrapper1);
-        assertEquals("Задача не может быть добавлена так как пересекается с задачей 'id = 1'время начала задачи = 2024-05-17T12:00'время завершения задачи = 2024-05-17T12:30", exception.getMessage(), "получено неверное исключение");
+        assertEquals("Задача не может быть добавлена так как пересекается с задачей 'id = 2'время начала задачи = 2024-05-17T13:00'время завершения задачи = 2024-05-17T13:40", exception.getMessage(), "получено неверное исключение");
     }
 
     /**
@@ -78,12 +78,12 @@ class InMemoryTaskManagerTest {
      */
     @Test
     void checkingForSavingAndUpdatingStatuses() {
-        taskManager.updateTask(1, new Task("Обычная обновленная задача №1", "Описание", Status.IN_PROGRESS));
-        taskManager.updateTask(2, new Task("Обычная обновленная задача №2", "Описание", Status.DONE));
+        taskManager.updateTask(1, new Task("Обычная обновленная задача №1", "Описание", Status.IN_PROGRESS, LocalDateTime.of(2024,5,17,12,0), Duration.ofMinutes(30)));
+        taskManager.updateTask(2, new Task("Обычная обновленная задача №2", "Описание", Status.DONE, LocalDateTime.of(2024,5,17,13,0), Duration.ofMinutes(40)));
 
-        taskManager.updateSubtask(5, new Subtask("Подзадача обновленная №1.Эпик1", "Описание", Status.IN_PROGRESS, 3));
-        taskManager.updateSubtask(6, new Subtask("Подзадача обновленная №2.Эпик1", "Описание", Status.DONE, 3));
-        taskManager.updateSubtask(7, new Subtask("Подзадача обновленная №1.Эпик2", "Описание", Status.DONE, 4));
+        taskManager.updateSubtask(5, new Subtask("Подзадача обновленная №1.Эпик1", "Описание", Status.IN_PROGRESS, 3, LocalDateTime.of(2024,5,17,14,0), Duration.ofMinutes(30)));
+        taskManager.updateSubtask(6, new Subtask("Подзадача обновленная №2.Эпик1", "Описание", Status.DONE, 3, LocalDateTime.of(2024,5,17,15,0), Duration.ofMinutes(30)));
+        taskManager.updateSubtask(7, new Subtask("Подзадача обновленная №1.Эпик2", "Описание", Status.DONE, 4, LocalDateTime.of(2024,5,17,16,0), Duration.ofMinutes(30)));
         ArrayList<Task> tasks = taskManager.getTasks();
         for (int i = 0; i < tasks.size(); i++) {
             switch (i) {
@@ -188,6 +188,6 @@ class Wrapper1 implements Executable {
 
     @Override
     public void execute() {
-        InMemoryTaskManagerTest.taskManager.addTask(new Task("Обычная задача №1", "Описание", Status.NEW, LocalDateTime.of(2024, 5, 17, 12, 0), Duration.ofMinutes(30)));
+        InMemoryTaskManagerTest.taskManager.addTask(new Task("Обычная задача №1", "Описание", Status.NEW, LocalDateTime.of(2024, 5, 17, 13, 10), Duration.ofMinutes(30)));
     }
 }
