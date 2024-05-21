@@ -132,8 +132,8 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateTask(int id, Task task) {
         task.setId(id);
         taskValidator(task);
-        this.tasks.put(id, task);
         prioritizedTasks.remove(getTaskOfId(task.getId()));
+        this.tasks.put(id, task);
         if (task.getStartTime() != null) {
             prioritizedTasks.add(task);
         }
@@ -150,11 +150,10 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateSubtask(int id, Subtask subtask) {
         subtask.setId(id);
         taskValidator(subtask);
+        prioritizedTasks.remove(getSubtaskOfId(subtask.getId()));
         subtasks.put(id, subtask);
         Epic epic = epics.get(subtask.getIdEpic());
-
         checkStatus(epic);
-        prioritizedTasks.remove(getSubtaskOfId(subtask.getId()));
         if (subtask.getStartTime() != null) {
             prioritizedTasks.add(subtask);
         }
