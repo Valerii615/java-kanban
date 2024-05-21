@@ -68,9 +68,6 @@ public class InMemoryTaskManager implements TaskManager {
         if (subtask.getStartTime() != null) {
             prioritizedTasks.add(subtask);
         }
-        if (epic.getStartTime() != null) {
-            prioritizedTasks.add(epic);
-        }
     }
 
     @Override
@@ -147,10 +144,6 @@ public class InMemoryTaskManager implements TaskManager {
         epic.setId(id);
         taskValidator(epic);
         epics.put(id, epic);
-        prioritizedTasks.remove(getEpicOfId(epic.getId()));
-        if (epic.getStartTime() != null) {
-            prioritizedTasks.add(epic);
-        }
     }
 
     @Override
