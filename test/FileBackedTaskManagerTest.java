@@ -125,7 +125,6 @@ public class FileBackedTaskManagerTest {
         assertTrue(fileBackedTaskManager.getEpics().isEmpty(), "Задачи типа Epic из постоянной памяти");
         assertTrue(fileBackedTaskManager.getSubtasks().isEmpty(), "Задачи типа Subtask из постоянной памяти");
     }
-
 }
 class Wrapper implements Executable {
     String fileName;
