@@ -12,20 +12,6 @@ public class Epic extends Task {
         super(nameTask, descriptionTask);
     }
 
-    @Override
-    public String toString() {
-        return "эпик задача {" +
-                "ID:" + getId() +
-                ", Название='" + getName() + '\'' +
-                ", Описание='" + getDescription() + '\'' +
-                ", Статус='" + getStatus() + '\'' +
-                ", timeStart='" + getStartTime() + '\'' +
-                ", duration='" + getDuration() + '\'' +
-                ", endTime='" + getEndTime() + '\'' +
-                "}" +
-                "\n";
-    }
-
     public List<Integer> getSubtaskId() {
         return subtaskId;
     }
@@ -37,5 +23,19 @@ public class Epic extends Task {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    @Override
+    public String toString() {
+        return "эпик задача {" +
+                "ID:" + getId() +
+                ", Название='" + getName() + '\'' +
+                ", Описание='" + getDescription() + '\'' +
+                ", Статус='" + getStatus() + '\'' +
+                ", время начала='" + getStartTime() + '\'' +
+                ", продолжительность='" + getDuration() + '\'' +
+                ", время завершения='" + getEndTime() + '\'' +
+                "}" +
+                "\n";
     }
 }

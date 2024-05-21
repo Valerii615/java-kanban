@@ -57,6 +57,22 @@ public class Task {
         this.status = status;
     }
 
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
     public LocalDateTime getEndTime() {
         if ((startTime != null) | !duration.isZero()) {
             return startTime.plus(duration);
@@ -71,8 +87,8 @@ public class Task {
                 ", Название='" + getName() + '\'' +
                 ", Описание='" + getDescription() + '\'' +
                 ", Статус='" + getStatus() + '\'' +
-                ",timeStart='" + getStartTime() + '\'' +
-                ",duration='" + getDuration() + '\'' +
+                ", время начала='" + getStartTime() + '\'' +
+                ", продолжительность='" + getDuration() + '\'' +
                 "}" +
                 "\n";
     }
@@ -98,21 +114,5 @@ public class Task {
             hash = hash + description.hashCode();
         }
         return hash;
-    }
-
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-
-    public Duration getDuration() {
-        return duration;
-    }
-
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setDuration(Duration duration) {
-        this.duration = duration;
     }
 }

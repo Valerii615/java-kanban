@@ -30,8 +30,8 @@ public class Subtask extends Task {
                 ", Название='" + getName() + '\'' +
                 ", Описание='" + getDescription() + '\'' +
                 ", Статус='" + getStatus() + '\'' +
-                ",timeStart='" + getStartTime() + '\'' +
-                ",duration='" + getDuration() + '\'' +
+                ", время начала='" + getStartTime() + '\'' +
+                ", продолжительность='" + getDuration() + '\'' +
                 "}" +
                 "\n";
     }
