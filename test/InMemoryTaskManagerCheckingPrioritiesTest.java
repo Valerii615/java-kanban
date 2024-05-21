@@ -50,6 +50,23 @@ public class InMemoryTaskManagerCheckingPrioritiesTest {
         assertEquals(7, taskManager.getPrioritizedTasksList().get(4).getId(), "неверный порядок задач");
     }
 
+    /**
+     * проверка обновления списка приоритетов
+     */
+    @Test
+    void updatingThePriorityList() {
+        taskManager.updateTask(1, new Task("Обычная задача №1", "Описание", Status.NEW, LocalDateTime.of(2024,5,17,12,10), Duration.ofMinutes(30)));
+        taskManager.updateSubtask(5, new Subtask("Подзадача №1.Эпик1", "Описание", Status.NEW, 3, LocalDateTime.of(2024,5,17,14,10), Duration.ofMinutes(30)));
+        taskManager.updateSubtask(7, new Subtask("Подзадача №1.Эпик2", "Описание", Status.NEW, 4, LocalDateTime.of(2024,5,17,16,10), Duration.ofMinutes(30)));
+//        assertEquals(5, taskManager.getPrioritizedTasksList().size(), "неверная длинна списка приоритетов");
+//        assertEquals();
+//        System.out.println(taskManager.getTaskOfId(1));
+//        System.out.println(taskManager.getSubtaskOfId(5));
+//        System.out.println(taskManager.getSubtaskOfId(7));
+        System.out.println(taskManager.getPrioritizedTasksList());
+
+    }
+
     @AfterAll
     static void removingFromThePriorityList() {
         taskManager.removeAllTask();
