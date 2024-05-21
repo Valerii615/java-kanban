@@ -8,8 +8,10 @@ import ru.valerii.task_tracker.model.Task;
 
 
 import java.io.*;
+import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -195,7 +197,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                             epic.setDuration(Duration.parse(taskContent[6]));
                             epic.setEndTime(LocalDateTime.parse(taskContent[7]));
                             epics.put(epic.getId(), epic);
-                            prioritizedTasks.add(epic);
                             fileBackedTaskManager.setIdCount(checkCounterId(Integer.parseInt(taskContent[0]), fileBackedTaskManager.getIdCount()));
                             break;
                         case "SUBTASK":
@@ -223,6 +224,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             throw new ManagerSaveException("Ошибка Чтения файла");
         } catch (NumberFormatException e) {
             throw new ManagerSaveException("Неверный формат id");
+        } catch (DateTimeParseException e) {
+            throw new ManagerSaveException("Неверный формат даты или времени");
         } catch (ManagerSaveException e) {
             throw new ManagerSaveException("Неверный тип задачи");
         } catch (ManagerSaveStatusException e) {
