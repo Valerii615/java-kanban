@@ -9,6 +9,7 @@ import ru.valerii.task_tracker.service.FileBackedTaskManager;
 import ru.valerii.task_tracker.service.Status;
 
 
+import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -96,6 +97,9 @@ public class FileBackedTaskManagerTest {
         Wrapper wrapper3 = new Wrapper("src/test_file/task_storage_epic_is_null.csv");
         Exception exception3 = assertThrows(RuntimeException.class, wrapper3);
         assertEquals("Epic с заданным id не существует", exception3.getMessage(), "получено неверное исключение");
+        Wrapper wrapper4 = new Wrapper("src/test_file/task_storage_LocalDateTime.csv");
+        Exception exception4 = assertThrows(RuntimeException.class, wrapper4);
+        assertEquals("Неверный формат даты или времени", exception4.getMessage(), "получено неверное исключение");
     }
 
     /**
