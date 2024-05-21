@@ -38,6 +38,7 @@ class InMemoryTaskManagerTest {
         taskManager.addSubtask(new Subtask("Подзадача №2.Эпик1", "Описание", Status.NEW, 3, LocalDateTime.of(2024,5,17,15,0), Duration.ofMinutes(30)));
         taskManager.addSubtask(new Subtask("Подзадача №1.Эпик2", "Описание", Status.NEW, 4, LocalDateTime.of(2024,5,17,16,0), Duration.ofMinutes(30)));
     }
+
     /**
      * проверка на корректный расчет пересечения времени задач
      */
