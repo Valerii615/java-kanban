@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.valerii.task_tracker.model.Task;
@@ -61,6 +60,4 @@ class InMemoryHistoryManagerTest {
     static void gettingAnEmptyTaskHistory() {
         assertEquals(0, taskManager.getHistory().size(), "неверная длинна истории");
     }
-
-
 }
