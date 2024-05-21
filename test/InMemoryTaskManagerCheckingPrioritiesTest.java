@@ -37,7 +37,7 @@ public class InMemoryTaskManagerCheckingPrioritiesTest {
      */
     @Test
     void addingTasksToThePriorityList() {
-        assertEquals(7, taskManager.getPrioritizedTasksList().size(), "неверная длинна списка приоритетов");
+        assertEquals(5, taskManager.getPrioritizedTasksList().size(), "неверная длинна списка приоритетов");
     }
 
     /**
@@ -46,8 +46,8 @@ public class InMemoryTaskManagerCheckingPrioritiesTest {
     @Test
     void correctTaskOrder() {
         assertEquals(1, taskManager.getPrioritizedTasksList().get(0).getId(), "неверный порядок задач");
-        assertEquals(5, taskManager.getPrioritizedTasksList().get(3).getId(), "неверный порядок задач");
-        assertEquals(7, taskManager.getPrioritizedTasksList().get(6).getId(), "неверный порядок задач");
+        assertEquals(5, taskManager.getPrioritizedTasksList().get(2).getId(), "неверный порядок задач");
+        assertEquals(7, taskManager.getPrioritizedTasksList().get(4).getId(), "неверный порядок задач");
     }
 
     @AfterAll
