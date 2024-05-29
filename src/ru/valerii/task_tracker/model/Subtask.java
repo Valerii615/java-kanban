@@ -23,6 +23,10 @@ public class Subtask extends Task {
         return idEpic;
     }
 
+    public void setIdEpic(int idEpic) {
+        this.idEpic = idEpic;
+    }
+
     @Override
     public String toString() {
         return "подзадача {" +
