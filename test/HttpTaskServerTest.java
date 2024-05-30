@@ -1,14 +1,11 @@
-import com.google.gson.Gson;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.valerii.task_tracker.model.Epic;
 import ru.valerii.task_tracker.model.Subtask;
 import ru.valerii.task_tracker.model.Task;
 import ru.valerii.task_tracker.server.HttpTaskServer;
 import ru.valerii.task_tracker.service.FileBackedTaskManager;
-import ru.valerii.task_tracker.service.Managers;
 import ru.valerii.task_tracker.service.Status;
 
 import java.io.IOException;
@@ -71,10 +68,10 @@ public class HttpTaskServerTest {
 
     /**
      * получение задач, эпиков и подзадач по id
-     * тестирование удачных и неудачныз сценариев
+     * удачные сценарии
      */
     @Test
-    void gettingTasksEpicsAndSubtasksById() throws IOException, InterruptedException {
+    void gettingTasksEpicsAndSubtasksByIdSuccessfulScenarios() throws IOException, InterruptedException {
         HttpRequest requestTaskId1 = getRequest("http://localhost:8080/tasks/1");
         HttpResponse<String> responseTaskId1 = httpClient.send(requestTaskId1, HttpResponse.BodyHandlers.ofString());
         assertEquals(200, responseTaskId1.statusCode(), "Неверный статус код при получении задачи TaskId1");
@@ -98,7 +95,14 @@ public class HttpTaskServerTest {
         HttpRequest requestSubaskId7 = getRequest("http://localhost:8080/subtasks/7");
         HttpResponse<String> responseSubaskId7 = httpClient.send(requestSubaskId7, HttpResponse.BodyHandlers.ofString());
         assertEquals(200, responseSubaskId7.statusCode(), "Неверный статус код при получении подзадачи SubaskId7");
+    }
 
+    /**
+     * получение задач, эпиков и подзадач по id
+     * неудачные сценарии
+     */
+    @Test
+    void gettingTasksEpicsAndSubtasksByIdUnsuccessfulScenarios() throws IOException, InterruptedException {
         HttpRequest requestTaskId999 = getRequest("http://localhost:8080/tasks/999");
         HttpResponse<String> responseTaskId999 = httpClient.send(requestTaskId999, HttpResponse.BodyHandlers.ofString());
         assertEquals(404, responseTaskId999.statusCode(), "Неверный статус код при получении задачи TaskId999");
@@ -111,10 +115,10 @@ public class HttpTaskServerTest {
     }
 
     /**
-     * добавление и обнавление задач, эпиков и подзадач
+     * добавление задач, эпиков и подзадач
      */
     @Test
-    void addingAndUpdatingTasksEpicsAndSubtasks() throws IOException, InterruptedException {
+    void addingTasksEpicsAndSubtasks() throws IOException, InterruptedException {
         HttpRequest requestAddTask = getRequestPost("http://localhost:8080/tasks", "{\"name\":\"Обычная задача №1\",\"description\":\"добавлена клиентом\",\"status\":\"NEW\",\"startTime\":\"2024-05-18|12:00\",\"duration\":30}");
         HttpResponse<String> responseAddTask = httpClient.send(requestAddTask, HttpResponse.BodyHandlers.ofString());
         assertEquals(201, responseAddTask.statusCode(), "Неверный статус код при добавлении задачи");
@@ -134,7 +138,13 @@ public class HttpTaskServerTest {
         HttpRequest requestAddSubtask406 = getRequestPost("http://localhost:8080/subtasks", "{\"idEpic\":9,\"name\":\"Подзадача №1.Эпик1\",\"description\":\"добавлена принудительно\",\"status\":\"NEW\",\"startTime\":\"2024-06-17|14:00\",\"duration\":30}");
         HttpResponse<String> responseAddSubtask406 = httpClient.send(requestAddSubtask406, HttpResponse.BodyHandlers.ofString());
         assertEquals(406, responseAddSubtask406.statusCode(), "Неверный статус код при добавлении задачи");
+    }
 
+    /**
+     * обновление задач и подзадач
+     */
+    @Test
+    void updatingTasksAndSubtasks() throws IOException, InterruptedException {
         HttpRequest requestUpdateTask = getRequestPost("http://localhost:8080/tasks/1", "{\"name\":\"Обнавленная задача \",\"description\":\"добавлена клиентом\",\"status\":\"NEW\",\"startTime\":\"2024-05-19|12:00\",\"duration\":30}");
         HttpResponse<String> responseUpdateTask = httpClient.send(requestUpdateTask, HttpResponse.BodyHandlers.ofString());
         assertEquals(201, responseUpdateTask.statusCode(), "Неверный статус код при добавлении задачи");
@@ -208,5 +218,4 @@ public class HttpTaskServerTest {
                 .DELETE()
                 .build();
     }
-
 }
